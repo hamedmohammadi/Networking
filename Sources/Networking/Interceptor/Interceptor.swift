@@ -2,7 +2,6 @@
 //  Interceptor.swift
 //  NetworkLayer
 //
-//  Created by hamed mohammadi on 8/8/20.
 //  Created by Habibollah Mohammadi on 2018/08/05.
 //  Copyright © 2020 Habibollah Mohammadi. All rights reserved.
 //

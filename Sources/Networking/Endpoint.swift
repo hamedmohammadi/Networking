@@ -1,8 +1,9 @@
 //
-//  Endpoint.swift
-//  App
+//  Interceptor.swift
+//  NetworkLayer
 //
-//  Created by Oleh Kudinov on 01.10.18.
+//  Created by Habibollah Mohammadi on 2018/08/05.
+//  Copyright © 2020 Habibollah Mohammadi. All rights reserved.
 //
 
 import Foundation
@@ -70,7 +71,7 @@ public protocol Requestable {
     var bodyParamaters: [String: Any] { get }
     var bodyEncoding: BodyEncoding { get }
 
-    func urlRequest(with networkConfig: NetworkConfigurable) throws -> URLRequest
+    func urlRequest(with networkConfig: NetworkConfigurable?) throws -> URLRequest
 }
 
 public protocol ResponseRequestable: Requestable {
@@ -85,10 +86,17 @@ enum RequestGenerationError: Error {
 
 extension Requestable {
 
-    func url(with config: NetworkConfigurable) throws -> URL {
-
-        let baseURL = config.baseURL.absoluteString.last != "/" ? config.baseURL.absoluteString + "/" : config.baseURL.absoluteString
-        let endpoint = isFullPath ? path : baseURL.appending(path)
+    func url(with config: NetworkConfigurable? = nil) throws -> URL {
+        guard isFullPath || config != nil else {
+            throw NetworkError.urlGeneration
+        }
+        let endpoint:String
+        if let config = config {
+            let baseURL = config.baseURL.absoluteString.last != "/" ? config.baseURL.absoluteString + "/" : config.baseURL.absoluteString
+            endpoint = baseURL.appending(path)
+        }else{
+            endpoint = path
+        }
 
         guard var urlComponents = URLComponents(string: endpoint) else { throw RequestGenerationError.components }
         var urlQueryItems = [URLQueryItem]()
@@ -97,7 +105,8 @@ extension Requestable {
         queryParameters.forEach {
             urlQueryItems.append(URLQueryItem(name: $0.key, value: "\($0.value)"))
         }
-        config.queryParameters.forEach {
+        
+        config?.queryParameters.forEach {
             urlQueryItems.append(URLQueryItem(name: $0.key, value: $0.value))
         }
         urlComponents.queryItems = !urlQueryItems.isEmpty ? urlQueryItems : nil
@@ -105,11 +114,11 @@ extension Requestable {
         return url
     }
 
-    public func urlRequest(with config: NetworkConfigurable) throws -> URLRequest {
+    public func urlRequest(with config: NetworkConfigurable? = nil) throws -> URLRequest {
 
         let url = try self.url(with: config)
         var urlRequest = URLRequest(url: url)
-        var allHeaders: [String: String] = config.headers
+        var allHeaders: [String: String] = config != nil ? config!.headers : [:]
         headerParamaters.forEach { allHeaders.updateValue($1, forKey: $0) }
 
         let bodyParamaters = try bodyParamatersEncodable?.toDictionary() ?? self.bodyParamaters

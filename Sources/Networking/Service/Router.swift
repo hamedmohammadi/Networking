@@ -8,14 +8,16 @@
 
 import Foundation
 
-//public typealias NetworkRouterCompletion = (_ data: Data?,_ response: URLResponse?,_ error: Error?)->()
-
+public typealias CompletionHandler<T> = (Result<T, NetworkError>) -> Void
 
 
 public protocol NetworkRouter: class {
     associatedtype ConfigData: ConfigDataProtocol
     init(interceptors:[InterceptorProtocol]?)
-    //    func request(_ route: EndPoint, completion: @escaping NetworkRouterCompletion) -> RequestCancelable?
+    func request<T: Decodable>(with endpoint: EndPoint<T>,
+                               onChangeCancelable:((NetworkCancellable?)->())? ,
+                               completion: @escaping CompletionHandler<T>)
+        -> NetworkCancellable?
 }
 
 public protocol NetworkCancellable {
@@ -33,8 +35,6 @@ public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: Networ
     
     public typealias ConfigData = ConfigData
     
-    public typealias CompletionHandler<T> = (Result<T, NetworkError>) -> Void
-    
     
     private let interceptors:[InterceptorProtocol]?
     
@@ -44,8 +44,6 @@ public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: Networ
     
     
     private struct MutableState {
-//        var requestQueue:[EndPoint] = []
-//        var currentInterceptor:InterceptorProtocol?
         var configData = ConfigData.load()
     }
     
@@ -54,36 +52,14 @@ public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: Networ
     
     @Protected
     private var mutableState = MutableState()
-    //    public
     
-    //    public func request(_ route: EndPoint, completion: @escaping NetworkRouterCompletion) -> RequestCancelable? {
-    //           let session = URLSession.shared
-    //           var task: URLSessionTask? = nil
-    //           do {
-    //               let request = try self.buildRequest(from: route)
-    //               NetworkLogger.log(request: request)
-    //               task = session.dataTask(with: request, completionHandler: { data, response, error in
-    //                   completion(data, response, error)
-    //               })
-    //           }catch {
-    //               completion(nil, nil, error)
-    //           }
-    //           task?.resume()
-    //           return task
-    //       }
-    
-//    @discardableResult
+    @discardableResult
     public func request<T: Decodable>(
         with endpoint: EndPoint<T>,
         onChangeCancelable:((NetworkCancellable?)->())? = nil,
         completion: @escaping CompletionHandler<T>)
         -> NetworkCancellable?  {
-//    public func request<T: Decodable>(
-//        with endpoint: EndPoint<T>,
-//        onChangeCancelable:((NetworkCancellable?)->())? = nil,
-//        completion: @escaping CompletionHandler<T>)
-//        -> NetworkCancellable?
-//    {
+            
         var request:URLRequest
         do{
             try checkInterceptorValidation()
@@ -177,7 +153,6 @@ public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: Networ
             let result: T = try decoder.decode(data)
             return .success(result)
         } catch {
-//            self.errorLogger.log(error: error)
             return .failure(NetworkError.encodingFailed)
         }
     }

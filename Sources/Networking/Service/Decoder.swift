@@ -1,8 +1,9 @@
 //
-//  DataTransfer.swift
-//  App
+//  Interceptor.swift
+//  NetworkLayer
 //
-//  Created by Oleh Kudinov on 01.10.18.
+//  Created by Habibollah Mohammadi on 2018/08/05.
+//  Copyright © 2020 Habibollah Mohammadi. All rights reserved.
 //
 
 import Foundation
