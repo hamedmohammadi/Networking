@@ -1,7 +1,7 @@
 import XCTest
 @testable import Networking
 
-final class NetworkingTests: XCTestCase {
+final class NetworkingTests: BaseTestCase {
     func testURLEncoding() {
         guard let url = URL(string: "https://www.google.com/") else {
             XCTAssertTrue(false, "Could not instantiate url")

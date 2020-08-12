@@ -32,9 +32,7 @@ public protocol NetworkConfigurable {
 }
 
 public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: NetworkRouter{
-    
     public typealias ConfigData = ConfigData
-    
     
     private let interceptors:[InterceptorProtocol]?
     
@@ -42,13 +40,9 @@ public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: Networ
         self.interceptors = interceptors
     }
     
-    
     private struct MutableState {
         var configData = ConfigData.load()
     }
-    
-    
-    let queue = DispatchQueue(label: "org.alamofire.authentication.inspector")
     
     @Protected
     private var mutableState = MutableState()
@@ -91,8 +85,10 @@ public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: Networ
                 completion(.failure(NetworkError.notConnected))
                 return
             }
-            var errorDueToInterceptorInvalidation = false
+            
             if let error = error {
+                var errorDueToInterceptorInvalidation = false
+                
                 SELF.$mutableState.read { mutableState in
                     for intcptr in SELF.interceptors ?? []{
                         if intcptr.isErrorMine(configData: mutableState.configData,
@@ -102,15 +98,20 @@ public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: Networ
                         }
                     }
                 }
+                
+                if errorDueToInterceptorInvalidation {
+                    onChangeCancelable?(
+                        SELF.request(with: endpoint,
+                                     onChangeCancelable: onChangeCancelable,
+                                     completion: completion))
+                    
+                }else{
+                    completion(.failure(NetworkError.generic(error)))
+                }
             }
             
-            if errorDueToInterceptorInvalidation {
-                onChangeCancelable?(
-                    SELF.request(with: endpoint,
-                                 onChangeCancelable: onChangeCancelable,
-                                 completion: completion))
-                
-            }
+           
+            
             let result: Result<T, NetworkError> = SELF.decode(data: data, decoder: endpoint.responseDecoder)
             completion(result)
         })
