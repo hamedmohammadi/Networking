@@ -12,8 +12,8 @@ let package = Package(
             name: "Networking",
             targets: ["Networking"]),
         .library(
-            name: "NetworkServiceRXSwift",
-            targets: ["NetworkServiceRXSwift"]),
+            name: "NetworkingRXSwift",
+            targets: ["NetworkingRXSwift"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -30,10 +30,10 @@ let package = Package(
             name: "NetworkingTests",
             dependencies: ["Networking"]),
         .target(
-            name: "NetworkServiceRXSwift",
+            name: "NetworkingRXSwift",
             dependencies: ["Networking", "RxSwift"]),
         .testTarget(
-            name: "NetworkServiceRXSwiftTests",
-            dependencies: ["NetworkServiceRXSwift"]),
+            name: "NetworkingRXSwiftTests",
+            dependencies: ["NetworkingRXSwift"]),
     ]
 )

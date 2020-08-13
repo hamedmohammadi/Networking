@@ -8,7 +8,7 @@
 import XCTest
 import RxSwift
 @testable import Networking
-@testable import NetworkServiceRXSwift
+@testable import NetworkingRXSwift
 
 fileprivate struct ApiConfigData {
     var APIKey:String? = "dejavuu"

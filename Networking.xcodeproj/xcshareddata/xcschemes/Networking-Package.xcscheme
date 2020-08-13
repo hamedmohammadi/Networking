@@ -6,7 +6,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "NetworkServiceRXSwift"
+          BlueprintName = "NetworkingRXSwift"
           ReferencedContainer = "container:Networking.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -33,6 +33,15 @@
             BuildableIdentifier = "primary"
             BuildableName = "'$(TARGET_NAME)'"
             BlueprintName = "NetworkingTests"
+            ReferencedContainer = "container:Networking.xcodeproj">
+          </BuildableReference>
+        </TestableReference>
+        <TestableReference
+          skipped = "NO">
+          <BuildableReference
+            BuildableIdentifier = "primary"
+            BuildableName = "'$(TARGET_NAME)'"
+            BlueprintName = "NetworkingRXSwiftTests"
             ReferencedContainer = "container:Networking.xcodeproj">
           </BuildableReference>
         </TestableReference>
