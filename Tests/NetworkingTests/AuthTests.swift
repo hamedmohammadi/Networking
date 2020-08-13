@@ -3,7 +3,7 @@ import XCTest
 
 // MARK: - Api Token implementation
 
-struct ApiConfigData {
+fileprivate struct ApiConfigData {
     var APIKey:String? = "dejavuu"
 }
 
@@ -33,7 +33,7 @@ extension ApiConfigData:NetworkConfigurable {
     }
 }
 
-class JWTInterceptor:InterceptorProtocol {
+fileprivate class JWTInterceptor:InterceptorProtocol {
     private var refreshNeeds = false
     func needRevalidate() -> Bool {
         return false
@@ -57,7 +57,7 @@ class JWTInterceptor:InterceptorProtocol {
 
 final class AuthTests: BaseTestCase {
     
-    let router = Router<ApiConfigData>(interceptors: [JWTInterceptor()])
+    private let router = Router<ApiConfigData>(interceptors: [JWTInterceptor()])
 
     
     func testAuthWithHeaderToken() {
@@ -91,7 +91,7 @@ final class AuthTests: BaseTestCase {
     
     
     static var allTests = [
-        ("testURLEncoding", testAuthWithHeaderToken),
+        ("testAuthWithHeaderToken", testAuthWithHeaderToken),
     ]
 }
 

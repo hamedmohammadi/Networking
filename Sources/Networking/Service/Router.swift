@@ -85,6 +85,21 @@ public class Router<ConfigData:ConfigDataProtocol & NetworkConfigurable>: Networ
                 completion(.failure(NetworkError.notConnected))
                 return
             }
+            guard let data = data,
+                let response = response as? HTTPURLResponse else {
+                    if let error = error {
+                        completion(.failure(NetworkError.generic(error)))
+                    } else {
+                        completion(.failure(NetworkError.noData))
+                    }
+                    return
+            }
+            
+            guard (200..<300) ~= response.statusCode else {
+                completion(.failure(NetworkError.error(statusCode: response.statusCode, data: data)))
+                return
+            }
+            
             
             if let error = error {
                 var errorDueToInterceptorInvalidation = false

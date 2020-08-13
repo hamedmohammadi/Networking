@@ -132,14 +132,17 @@ final class NetworkingTests: BaseTestCase {
         }
     }
     
-    
-    func testStringBodyParameters() {
-        
-    }
-    
+//
+//    func testStringBodyParameters() {
+//
+//    }
+//
     
     
     static var allTests = [
         ("testURLEncoding", testURLEncoding),
+        ("testHearders", testHearders),
+        ("testJsonBodyParameters", testJsonBodyParameters),
+        ("testJsonBodyParametersWithStringEncoderShouldFaild", testJsonBodyParametersWithStringEncoderShouldFaild),
     ]
 }

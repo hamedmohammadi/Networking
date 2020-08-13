@@ -85,7 +85,7 @@ enum RequestGenerationError: Error {
 }
 
 extension Requestable {
-
+    
     func url(with config: NetworkConfigurable? = nil) throws -> URL {
         guard isFullPath || config != nil else {
             throw NetworkError.urlGeneration
@@ -115,7 +115,6 @@ extension Requestable {
     }
 
     public func urlRequest(with config: NetworkConfigurable? = nil) throws -> URLRequest {
-
         let url = try self.url(with: config)
         var urlRequest = URLRequest(url: url)
         var allHeaders: [String: String] = config != nil ? config!.headers : [:]
@@ -139,6 +138,8 @@ extension Requestable {
         }
     }
 }
+
+
 
 private extension Dictionary {
     var queryString: String {
