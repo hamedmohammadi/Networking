@@ -31,7 +31,7 @@ let package = Package(
             dependencies: ["Networking"]),
         .target(
             name: "NetworkingRXSwift",
-            dependencies: ["Networking", "RxSwift"]),
+            dependencies: ["Networking", "RxSwift", .product(name: "RxCocoa", package: "RxSwift")]),
         .testTarget(
             name: "NetworkingRXSwiftTests",
             dependencies: ["NetworkingRXSwift"]),
