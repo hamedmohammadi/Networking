@@ -12,34 +12,40 @@ import Networking
 
 public protocol RXNetworkRouter:NetworkRouter {
     func request<T: Decodable>(with endpoint: EndPoint<T>)
-    -> Driver<Result<T,NetworkError>>
+        -> Single<T>
 }
 
 extension Router:RXNetworkRouter {
-    public func request<T>(with endpoint: EndPoint<T>) -> Driver<Result<T,NetworkError>> where T : Decodable {
-        return Observable.create { [unowned self] observer in
+    public func request<T>(with endpoint: EndPoint<T>) -> Single<T> where T : Decodable {
+        Single.create { (single) -> Disposable in
             var cancelable:NetworkCancellable? = nil
             cancelable = self.request(with: endpoint, onChangeCancelable: { (cnclbl:NetworkCancellable?) in
                 cancelable = cnclbl
             }) { (result) in
-                observer.onNext(result)
-//                observer.o
-//                switch result {
-//                case .success(let model):
-//
-//                case .failure(let error):
-//                    observer.onError(error)
-//                }
+                switch result {
+                case .success(let model):
+                    single(.success(model))
+                case .failure(let error):
+                    single(.error(error))
+                }
             }
             
             return Disposables.create {
                 cancelable?.cancel()
             }
-        }.asDriver(onErrorJustReturn: Result.failure(NetworkError.notConnected))
-            
-            
+        }
         
-    }
-    
-    
+        //        return Observable.create { [unowned self] observer in
+        //            var cancelable:NetworkCancellable? = nil
+        //            cancelable = self.request(with: endpoint, onChangeCancelable: { (cnclbl:NetworkCancellable?) in
+        //                cancelable = cnclbl
+        //            }) { (result) in
+        //                observer.onNext(result)
+        //            }
+        //
+        //            return Disposables.create {
+        //                cancelable?.cancel()
+        //            }
+        //        }.asDriver(onErrorJustReturn: Result.failure(NetworkError.notConnected))
+    } 
 }

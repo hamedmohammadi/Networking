@@ -57,23 +57,20 @@ final class NetworkServiceRXSwiftTests: BaseTestCase {
                   path: "/json",
                   method: .get)
         let expect = expectation(description: "request should complete")
-        var event:Event<Response>? = nil
-        _ = router.request(with: endPoint).subscribe { (evt:Event<Response>) in
-            event = evt
-            expect.fulfill()
-        }
+        
+        _ = router.request(with: endPoint)
+            .subscribe(onSuccess: { (model) in
+                XCTAssertNotNil(model.slideshow.author)
+                XCTAssertNotNil(model.slideshow.date)
+                expect.fulfill()
+            }, onError: { (error) in
+                XCTAssert(false, error.localizedDescription)
+                expect.fulfill()
+            })
+        
         waitForExpectations(timeout: timeout)
-        XCTAssertNotNil(event)
-        switch event! {
-        case .next(let model):
-            XCTAssertNotNil(model.slideshow.author)
-            XCTAssertNotNil(model.slideshow.date)
-        case .error(let error):
-            XCTAssert(false, error.localizedDescription)
-        default:
-            ()
-        }
     }
+    
     static var allTests = [
         ("testSimpleRXRequest", testSimpleRXRequest),
     ]
