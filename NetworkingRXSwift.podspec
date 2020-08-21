@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'NetworkingRXSwift'
-  s.version          = '0.9.7'
+  s.version          = '0.9.8'
   s.summary          = 'A short description of Networking.'
   s.swift_version = '5.0'
 
@@ -47,4 +47,8 @@ EOS
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Networking', '~> 0.9'
+  s.dependency 'RxSwift', '~> 5'
+  s.dependency 'RxCocoa', '~> 5'
+
+
 end
