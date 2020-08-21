@@ -25,13 +25,15 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "Networking",
-            dependencies: []),
+            dependencies: [],
+            path: "./Sources/Networking"),
         .testTarget(
             name: "NetworkingTests",
             dependencies: ["Networking"]),
         .target(
             name: "NetworkingRXSwift",
-            dependencies: ["Networking", "RxSwift", .product(name: "RxCocoa", package: "RxSwift")]),
+            dependencies: ["Networking", "RxSwift", .product(name: "RxCocoa", package: "RxSwift")],
+            path: "./Sources/NetworkingRXSwift"),
         .testTarget(
             name: "NetworkingRXSwiftTests",
             dependencies: ["NetworkingRXSwift"]),

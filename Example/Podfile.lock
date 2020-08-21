@@ -1,0 +1,22 @@
+PODS:
+  - Networking (0.9.6)
+  - NetworkingRXSwift (0.9.6):
+    - Networking (~> 0.9)
+
+DEPENDENCIES:
+  - Networking (from `../`)
+  - NetworkingRXSwift (from `../`)
+
+EXTERNAL SOURCES:
+  Networking:
+    :path: "../"
+  NetworkingRXSwift:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Networking: a2e9eff25fc19e66281159477906776e70ae14bc
+  NetworkingRXSwift: d53407548672c56c4e91c4b03353a3d8baae4e15
+
+PODFILE CHECKSUM: e2f2f39741b20e049b49f904ab3e22fa63365586
+
+COCOAPODS: 1.9.3

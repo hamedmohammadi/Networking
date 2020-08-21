@@ -1,0 +1,25 @@
+{
+  "name": "Networking",
+  "version": "0.9.6",
+  "summary": "A short description of Networking.",
+  "swift_versions": "5.0",
+  "description": "Rest API Support.\na. RX Support.\nb. Supported by swift package and CocoaPod in progress....\nc. Support for JWT and Auto refresh support.\nd. Object Mapping support.\ne. I put some tests in this library but more tests needed. (in progress...).\nf. Multi API is fully supported with its own authorization processes.",
+  "homepage": "https://github.com/hamedmohammadi/Networking",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "hamedmohammadi": "hamed.nova@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/hamedmohammadi/Networking.git",
+    "tag": "0.9.6"
+  },
+  "platforms": {
+    "ios": "10.0",
+    "osx": "10.12"
+  },
+  "source_files": "Sources/Networking/**/*",
+  "swift_version": "5.0"
+}
