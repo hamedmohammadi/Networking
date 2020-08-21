@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'NetworkingRXSwift'
-  s.version          = '0.9.6'
+  s.version          = '0.9.7'
   s.summary          = 'A short description of Networking.'
   s.swift_version = '5.0'
 
@@ -38,7 +38,7 @@ EOS
   s.ios.deployment_target = '10.0'
   s.osx.deployment_target = '10.12'
 
-  s.source_files     = 'Sources/NetworkingRXSwif/**/*'
+  s.source_files     = 'Sources/NetworkingRXSwift/**/*'
   
   # s.resource_bundles = {
   #   'Networking' => ['Networking/Assets/*.png']
